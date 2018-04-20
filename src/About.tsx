@@ -6,7 +6,7 @@ class About extends React.Component {
     return (
       <div className="App">
         <p className="App-intro">
-          Herp derp about page
+          Her kan man bare lige læse at det er mig der har lavet det...
         </p>
       </div>
     );

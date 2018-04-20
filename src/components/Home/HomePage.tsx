@@ -6,7 +6,7 @@ class HomePage extends React.Component {
     return (
       <div className="App">
         <p className="App-intro">
-          Herp derp Home page
+          Her kan man bare lige se en dejlig homepage :3
         </p>
       </div>
     );

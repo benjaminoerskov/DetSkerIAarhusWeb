@@ -27,3 +27,7 @@ height: 200px;
 .imgDetail{
 object-fit: contain
 }
+
+.imgSpin{
+  pointer-events: none;
+}

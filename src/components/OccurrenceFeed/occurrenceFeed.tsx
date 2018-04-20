@@ -201,7 +201,7 @@ IOccurrencesScreenState> {
   const OccouranceCardComponent = (props: IOccourrenceCardComponentProps): JSX.Element => {
     const occurrenceId = props.occurrence["@id"].replace(/\D/g,'');
     // @ts-ignore
-    const desciption = strip(props.occurrence.event.description).slice(0,120) + "  ...";
+    const desciption = strip(props.occurrence.event.description).slice(0,120) +"... ";
     const imageSource = props.occurrence.event.image ? props.occurrence.event.image : "someplaceholder";
     return(
       <div className="card cardListComponent">
@@ -209,7 +209,7 @@ IOccurrencesScreenState> {
       <div className="card-body">
     <h5 className="card-title">{props.occurrence.event.name}</h5>
     {/* <h5 className="card-title">{props.occurrence.event.name}</h5> */}
-    <p className="card-text" >{desciption}</p>
+    <p className="card-text" >{desciption}<Link to={`/occurrences/${occurrenceId}`}>Du kan bare læse mere her :3</Link></p>
     {/* <a onClick={()=>props.linkClicked(props.occurrence["@id"])} className="btn btn-primary">Go somewhere</a> */}
     <Link to={`/occurrences/${occurrenceId}`} className="btn btn-primary">Go to event</Link>
   </div>
