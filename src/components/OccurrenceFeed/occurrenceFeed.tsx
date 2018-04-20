@@ -205,7 +205,7 @@ IOccurrencesScreenState> {
     const imageSource = props.occurrence.event.image ? props.occurrence.event.image : "someplaceholder";
     return(
       <div className="card cardListComponent">
-     <img className="card-img-top"  src={imageSource} alt={props.occurrence.event.name} height={200}/>
+     <img className="card-img-top imgFeed"  src={imageSource} alt={props.occurrence.event.name}/>
       <div className="card-body">
     <h5 className="card-title">{props.occurrence.event.name}</h5>
     {/* <h5 className="card-title">{props.occurrence.event.name}</h5> */}

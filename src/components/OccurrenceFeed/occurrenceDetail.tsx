@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {RouteComponentProps} from 'react-router';
+import DateHelper from '../../utils/dateHelper';
 
 import {getSingleEvent} from '../../state/ducks/occurrences/operations';
 import * as types from '../../state/ducks/occurrences/types';
@@ -43,14 +44,17 @@ const OccurrenceDetailRender = (props : {
     return null;
   }
   
+  const betterDate = DateHelper.getDisplayString(new Date(props.occurrence.startDate));
   return (
     <div className="App">
       <h1>
         {props.occurrence.event.name}
       </h1>
+      <h2>{betterDate}</h2>
+      <h2>Det koster bare: {props.occurrence.ticketPriceRange}</h2>
       <div dangerouslySetInnerHTML={{__html: props.occurrence.event.description}}>
         </div>
-        <img src={props.occurrence.event.image}/>
+        <img className="img-fluid" src={props.occurrence.event.image}/>
     </div>
     
   )

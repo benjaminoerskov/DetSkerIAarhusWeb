@@ -7,16 +7,23 @@ html {
   font-family: "Roboto", sans-serif;
 }
 .cardListComponent {
-height: 500px;
-width: 300px;
-margin: 10px
+  height: 500px;
+  width: 300px;
+  margin: 10px;
 }
 
 .cardListContainer {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: 'row';
+  flex-direction: "row";
   justify-content: center;
   align-items: center;
 }
 
+.imgFeed {
+height: 200px;
+}
+
+.imgDetail{
+object-fit: contain
+}
