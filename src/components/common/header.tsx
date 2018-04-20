@@ -1,21 +1,23 @@
 import * as React from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink } from 'react-router-dom';
 
 import logo from '../../logo.svg';
 
 class Header extends React.Component {
+    
     public render() {
+        
         return (
             <div className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo imgSpin" alt="logo"/>
-                    <div>
-                        <Link to="/">Home</Link>
+                    <nav>
+                        <NavLink exact={true} activeClassName="selected" activeStyle={styleActive} to="/">Home</NavLink >
                         {" | "}
-                        <Link to="/feed">Feed</Link>
+                        <NavLink activeClassName="selected" activeStyle={styleActive} to="/feed">Feed</NavLink >
                         {" | "}
-                        <Link to="/about">About</Link>
-                    </div>
+                        <NavLink activeClassName="selected" activeStyle={styleActive} to="/about">About</NavLink >
+                    </nav>
                 </header>
             </div>
         );
@@ -23,3 +25,8 @@ class Header extends React.Component {
 }
 
 export default Header;
+
+const styleActive={
+    // fontWeight: 'bold',
+    color: 'red'
+   };
