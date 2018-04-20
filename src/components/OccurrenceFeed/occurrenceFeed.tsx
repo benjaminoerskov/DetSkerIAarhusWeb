@@ -23,8 +23,6 @@ import DateHelper from '../../utils/dateHelper';
 
 class OccurrenceFeed extends React.Component<IOccurrencesScreenProps,
 IOccurrencesScreenState> {
-  // @ts-ignore
-    // private list: any;
 
     constructor(props:any) {
         super(props);
@@ -49,17 +47,6 @@ IOccurrencesScreenState> {
     }
 
   }
-      // public componentDidMount(){
-      //   // this.upDateEvents(1);
-      //   this.props.occurrencesOperations.getEventsAsync(
-      //     this.state.resourceOptions,
-      //     1,
-      //     100
-      //   );
-      // }
-
-
-
     public render() {
       // @ts-ignore
       // tslint:disable-next-line:prefer-const
@@ -79,12 +66,6 @@ IOccurrencesScreenState> {
                     {occurrenceItems}
                 </div>
 
-          {/* <div className="cardListContainer" >
-            {this.props.eventsFeed &&
-              this.props.eventsFeed.map((occo) => {
-              return (<OccouranceCardComponent key={occo["@id"]} occurrence={occo} linkClicked={this.componentDidMount}  />)}
-            )}
-        </div> */}
         </InfiniteScroll>
         );
     }
@@ -113,10 +94,6 @@ IOccurrencesScreenState> {
         if (this.props.eventsFeed.length < 1) {
           alert('No results');
         }
-
-  // @ts-ignore
-      // tslint:disable-next-line:no-console
-      console.log("TOP-LOGGER: hasMore: " + this.state.resourceOptions.hasMore + " totalItems: " + this.props.pagination.total + " FeedLength: " + this.props.eventsFeed.length);
 
         if(this.props.eventsFeed.length >= this.props.pagination.total){
           await this.setState({
@@ -177,8 +154,6 @@ IOccurrencesScreenState> {
         });
       };
 
-      
-
 }
 
   const mapStateToProps = (state: IAppState) => {
@@ -200,7 +175,6 @@ IOccurrencesScreenState> {
   
   const OccouranceCardComponent = (props: IOccourrenceCardComponentProps): JSX.Element => {
     const occurrenceId = props.occurrence["@id"].replace(/\D/g,'');
-    // @ts-ignore
     const desciption = strip(props.occurrence.event.description).slice(0,120) +"... ";
     const imageSource = props.occurrence.event.image ? props.occurrence.event.image : "someplaceholder";
     return(
@@ -208,9 +182,7 @@ IOccurrencesScreenState> {
      <img className="card-img-top imgFeed"  src={imageSource} alt={props.occurrence.event.name}/>
       <div className="card-body">
     <h5 className="card-title">{props.occurrence.event.name}</h5>
-    {/* <h5 className="card-title">{props.occurrence.event.name}</h5> */}
     <p className="card-text" >{desciption}<Link to={`/occurrences/${occurrenceId}`}>Du kan bare læse mere her :3</Link></p>
-    {/* <a onClick={()=>props.linkClicked(props.occurrence["@id"])} className="btn btn-primary">Go somewhere</a> */}
     <Link to={`/occurrences/${occurrenceId}`} className="btn btn-primary">Go to event</Link>
   </div>
     </div>
