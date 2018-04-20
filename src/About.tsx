@@ -8,7 +8,7 @@ class About extends React.Component {
         <p className="App-intro">
           Her kan man bare lige læse at det er mig der har lavet det...
         </p>
-        <Link to="/feed">Tryk her for at se det dejlige</Link>
+        <Link to="/feed">Tryk her for at komme hen til det dejlige</Link>
       </div>
     );
   }
