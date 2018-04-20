@@ -6,9 +6,9 @@ class About extends React.Component {
     return (
       <div className="App">
         <p className="App-intro">
-          Her kan man bare lige læse at det er mig der har lavet det HERP DERP...
+          Her kan man bare lige læse at det er mig der har lavet det...
         </p>
-        <Link to="/feed">herp derp</Link>
+        <Link to="/feed">Tryk her for at komme hen til det dejlige</Link>
       </div>
     );
   }
