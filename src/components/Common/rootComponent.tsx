@@ -4,14 +4,14 @@ import { BrowserRouter, NavLink} from 'react-router-dom';
 import Main, { routes } from '../../Main';
 
 class RootComponent extends React.Component {
-    
+
     public render() {
         return (
-            <BrowserRouter> 
-            <>
-            <NavigationBar/>
-            <Main />
-            </>
+            <BrowserRouter>
+                <>
+                    <NavigationBar />
+                    <Main />
+                </>
             </BrowserRouter>
         );
     }
