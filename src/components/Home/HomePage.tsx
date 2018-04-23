@@ -9,7 +9,6 @@ class HomePage extends React.Component {
           Homepage description here
         </p>
         <Link to="/feed">Click to go to feed</Link>
-        
       </div>
     );
   }
