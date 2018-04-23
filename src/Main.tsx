@@ -2,10 +2,13 @@ import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import AboutPage from './components/About/aboutPage';
-import { IRouterLinkElementProps } from './components/Common/rootComponent';
 import HomePage from './components/Home/homePage';
 import DetailPage from './components/OccurrenceFeed/occurrenceDetail';
 import FeedPage from './components/OccurrenceFeed/occurrenceFeed';
+import LoginPage from './components/User/LoginPage';
+import RegisterPage from './components/User/RegisterPage';
+import UserPage from './components/User/UserPage';
+import { IRouterLinkElementProps } from './rootComponent';
 
 const Main = () => (
     <main>
@@ -14,6 +17,9 @@ const Main = () => (
         <Route path='/feed' component={FeedPage}/>
         <Route path='/about' component={AboutPage}/>
         <Route path='/occurrences/:id' component={DetailPage}/>
+        <Route path='/login' component={LoginPage}/>
+        <Route path='/register' component={RegisterPage}/>
+        <Route path='/user' component={UserPage}/>
       </Switch>
     </main>
   )
@@ -22,4 +28,12 @@ const Main = () => (
     {routeLink: "/feed", name: "Feed"},
     {routeLink: "/about", name: "About"},
 ]
+
+export function getRoutes(isLoggedIn: boolean) {
+  if(!isLoggedIn){
+    return [...routes, {routeLink: "/login", name:"Login"}]
+  }
+  return [...routes, {routeLink: "/user", name:"User"}]
+}
+
   export default Main;

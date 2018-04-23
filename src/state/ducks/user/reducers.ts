@@ -7,6 +7,7 @@ export interface IUserState {
   loginError: types.ILoginError;
   registerError: types.ILoginError;
   isAuthenticating: boolean;
+  isLoggedIn: boolean;
 }
 
 export const defaultState = {
@@ -25,6 +26,7 @@ export const defaultState = {
     error: '',
   },
   isAuthenticating: false,
+  isLoggedIn: false,
 };
 
 export const userReducer = (

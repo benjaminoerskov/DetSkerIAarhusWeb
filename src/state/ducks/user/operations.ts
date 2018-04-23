@@ -64,6 +64,8 @@ const loginUserAsync = (userLogin : ILoginType) => {
     try {
       dispatch(actions.SetLoginRequested());
       const response = await userNetworkClient.postAsync(devUri, userLogin);
+      // tslint:disable-next-line:no-console
+      console.log(response);
       if (response.ok) {
         const user : IUser = {
           token: await response.text()
@@ -77,6 +79,8 @@ const loginUserAsync = (userLogin : ILoginType) => {
         dispatch(actions.setLoginFailure(LoginError));
       }
     } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.log(error);
       throw error;
     }
   };

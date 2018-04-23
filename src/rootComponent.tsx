@@ -1,23 +1,33 @@
+import './App.css';
+
 import * as React from 'react';
-import { BrowserRouter, NavLink} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { BrowserRouter, NavLink } from 'react-router-dom';
 
-import Main, { routes } from '../../Main';
+import Main, { getRoutes } from './Main';
+import { IAppState } from './state/ducks';
+import { getUserViewState } from './state/ducks/user/selectors';
 
-class RootComponent extends React.Component {
+export interface IRootComponentProps {
+    userLoggedIn: boolean;
+}
+
+
+class RootComponent extends React.PureComponent<IRootComponentProps> {
 
     public render() {
         return (
             <BrowserRouter>
-                <>
-                    <NavigationBar />
+                <div className= "App">
+                    <NavigationBar isloggedIn={this.props.userLoggedIn}  />
                     <Main />
-                </>
+                </div>
             </BrowserRouter>
         );
     }
 }
 
-const NavigationBar = () => {
+const NavigationBar = (props: {isloggedIn: boolean}) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <NavLink className="navbar-brand" to={"/"} >Home</NavLink>
@@ -26,7 +36,7 @@ const NavigationBar = () => {
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
-                    <ConstructNavLinkElements routes={routes} />
+                    <ConstructNavLinkElements routes={getRoutes(props.isloggedIn)} />
                 </ul>
             </div>
         </nav>
@@ -52,4 +62,8 @@ const ConstructNavLinkElements = (props: { routes: IRouterLinkElementProps[] }):
     </>
 )
 
-export default RootComponent;
+const mapStateToProps = (state: IAppState) => ({
+    userLoggedIn: getUserViewState(state.user).isLoggedIn
+})
+
+export default connect(mapStateToProps)(RootComponent);

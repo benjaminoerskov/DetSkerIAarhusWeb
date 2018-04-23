@@ -6,4 +6,5 @@ export const getUserViewState = (state: IUserState) => ({
   loginError: state.loginError,
   registerError: state.registerError,
   isAuthenticating: state.isAuthenticating,
+  isLoggedIn: state.isLoggedIn
 });

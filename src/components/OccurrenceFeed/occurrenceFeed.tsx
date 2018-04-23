@@ -156,8 +156,10 @@ const OccouranceCardComponent = (props: IOccourrenceCardComponentProps): JSX.Ele
   const betterDate = DateHelper.getDisplayString(new Date(props.occurrence.startDate));
   return(
     <div className="card cardListComponent">
-      <Link to={`/occurrences/${occurrenceId}`}><img className="card-img-top imgFeed" title={decoder(props.occurrence.event.name)} src={imageSource} alt={props.occurrence.event.name}>
-      </img></Link>
+      <div className="img-div">
+        <Link to={`/occurrences/${occurrenceId}`}><img className="card-img-top imgFeed" title={decoder(props.occurrence.event.name)} src={imageSource} alt={props.occurrence.event.name}>
+        </img></Link>
+      </div>
       <div className="card-body card-body-custom">
       <div>
         <h5 className="card-title" dangerouslySetInnerHTML={{__html: eventName}}></h5>
