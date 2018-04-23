@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router-dom'
-import AboutPage from './About';
-import HomePage from './components/Home/HomePage';
+import { Route, Switch } from 'react-router-dom';
+
+import AboutPage from './components/About/aboutPage';
+import { IRouterLinkElementProps } from './components/Common/rootComponent';
+import HomePage from './components/Home/homePage';
 import DetailPage from './components/OccurrenceFeed/occurrenceDetail';
 import FeedPage from './components/OccurrenceFeed/occurrenceFeed';
 
@@ -16,4 +18,9 @@ const Main = () => (
     </main>
   )
   
+ export const routes: IRouterLinkElementProps[] = [
+    {routeLink: "/feed", name: "Feed"},
+    {routeLink: "/about", name: "About"},
+]
+
   export default Main

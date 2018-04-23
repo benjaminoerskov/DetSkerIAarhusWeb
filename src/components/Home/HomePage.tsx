@@ -6,9 +6,9 @@ class HomePage extends React.Component {
     return (
       <div className="App">
         <p className="App-intro">
-          Her kan man bare lige se en dejlig homepage :3
+          Homepage description here
         </p>
-        <Link to="/feed">Tryk her for at komme hen til det dejlige</Link>
+        <Link to="/feed">Click to go to feed</Link>
         
       </div>
     );

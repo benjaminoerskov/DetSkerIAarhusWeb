@@ -31,3 +31,27 @@ object-fit: contain
 .imgSpin{
   pointer-events: none;
 }
+
+.cardDate{
+  display: flex;
+  justify-content: space-between;
+}
+.card-body-custom{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
+.active-custom {
+  background-color: aquamarine;
+border-radius: 8px;
+}
+
+/* .feedDate{
+  float: left
+}
+
+.feedPrice{
+  float: right
+} */

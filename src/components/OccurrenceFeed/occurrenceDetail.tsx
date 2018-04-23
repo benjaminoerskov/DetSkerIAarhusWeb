@@ -17,21 +17,18 @@ class OccurrenceDetail extends React.Component < IOccurrenceDetailProps,
 IState > {
 
   public state = {
-    occurrence: undefined
+    occurrence:undefined
   }
 
   public async componentDidMount() {
     const occurrence : types.IOccurrence = await getSingleEvent(this.props.match.params.id);
-
     this.setState({occurrence});
   }
 
   public render() {
     return (
-    // @ts-ignore 
-    < OccurrenceDetailRender occurrence = {
-      this.state.occurrence
-    } />)
+      // @ts-ignore
+    <OccurrenceDetailRender occurrence = {this.state.occurrence} />)
   }
 }
 
@@ -51,11 +48,10 @@ const OccurrenceDetailRender = (props : {
         {props.occurrence.event.name}
       </h1>
       <h2>{betterDate}</h2>
-      <h2>Det koster bare: {props.occurrence.ticketPriceRange}</h2>
+      <h2>Pris: {props.occurrence.ticketPriceRange}</h2>
       <div dangerouslySetInnerHTML={{__html: props.occurrence.event.description}}>
         </div>
         <img className="img-fluid" src={props.occurrence.event.image}/>
     </div>
-    
   )
 };
