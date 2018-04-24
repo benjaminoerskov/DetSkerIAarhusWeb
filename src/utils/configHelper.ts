@@ -4,18 +4,13 @@ interface IConfig {
     termsURL: string;
   };
 }
-
 const devConfig =  
-
 {
-  
     urls: {
-
       baseAPIURL: "http://localhost:44345/api",
       termsURL: "https://www.google.com"
     }
   }
-
 
 const getConfig = (): IConfig => {
 

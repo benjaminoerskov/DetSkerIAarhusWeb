@@ -12,8 +12,6 @@ class UserNetworkClient extends NetworkClient < IUser > {
           'X-Secret': 'herpderp'
         }
       };
-      // tslint:disable-next-line:no-console
-      console.log(req);
       return fetch(uri, req);
     } catch (error) {
       throw error;

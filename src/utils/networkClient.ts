@@ -19,8 +19,7 @@ export abstract class NetworkClient < T > {
         },
         body: JSON.stringify(obj),
       };
-      // tslint:disable-next-line:no-console
-      console.log(req);
+
       return fetch(uri, req);
     } catch (error) {
       throw error;

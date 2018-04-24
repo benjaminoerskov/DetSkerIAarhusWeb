@@ -62,7 +62,6 @@ class LoginPage extends React.Component<ILoginScreenProps, ILoginScreenState> {
 
 public render(){
     return(
-        <>
         <form onSubmit={this.onLoginPressed}  >
             <div className="form-group">
                 <label htmlFor="exampleInputEmail1">Email address</label>
@@ -84,7 +83,6 @@ public render(){
            
          <button type="submit" className="btn btn-primary">Submit</button>
         </form>
-         </>
     )
     }
 }
