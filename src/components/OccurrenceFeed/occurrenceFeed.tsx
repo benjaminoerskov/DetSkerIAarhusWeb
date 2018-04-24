@@ -40,8 +40,8 @@ IOccurrencesScreenState> {
         organizerIds: [],
         placesId: [],
         hasMore: true
+        }
       }
-    }
   }
 
   public render() {
