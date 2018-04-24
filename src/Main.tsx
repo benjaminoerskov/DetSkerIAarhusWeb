@@ -26,11 +26,13 @@ const Main = () => (
     </main>
   )
 
-  const Authorized = (props:any) => {
-    return(
-    <Route path='/user' component={UserPage}/>
-    );
-  }
+const Authorized = () => {
+  return (
+    <Switch>
+      <Route path='/user' component={UserPage} />
+    </Switch>
+  );
+}
   
   
  export const routes: IRouterLinkElementProps[] = [
