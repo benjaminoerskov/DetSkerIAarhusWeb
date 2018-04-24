@@ -14,10 +14,13 @@ export abstract class NetworkClient < T > {
       const req : RequestInit = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-Secret': 'herpderp'
         },
-        body: JSON.stringify(obj)
+        body: JSON.stringify(obj),
       };
+      // tslint:disable-next-line:no-console
+      console.log(req);
       return fetch(uri, req);
     } catch (error) {
       throw error;

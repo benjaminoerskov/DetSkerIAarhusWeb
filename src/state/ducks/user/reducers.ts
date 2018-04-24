@@ -60,6 +60,7 @@ export const userReducer = (
       return {
         ...state,
         isAuthenticating: false,
+        isLoggedIn: true,
         loginError: { error: '' },
       };
     case types.REGISTER_REQUESTED:

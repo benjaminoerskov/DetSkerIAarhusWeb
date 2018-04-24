@@ -1,6 +1,6 @@
 {
   "urls": {
-    "baseAPIURL": "http://192.168.5.158:44344/api",
+    "baseAPIURL": "http://localhost:44345/api",
     "termsURL": "https://www.google.com"
   }
 }

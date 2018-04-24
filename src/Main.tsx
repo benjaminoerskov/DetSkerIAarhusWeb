@@ -10,6 +10,7 @@ import LoginPage from './components/User/LoginPage';
 import RegisterPage from './components/User/RegisterPage';
 import UserPage from './components/User/UserPage';
 import { IRouterLinkElementProps } from './rootComponent';
+import UnauthorizedRoute from './UnauthorizedRoute';
 
 const Main = () => (
     <main>
@@ -18,9 +19,8 @@ const Main = () => (
         <Route path='/feed' component={FeedPage}/>
         <Route path='/about' component={AboutPage}/>
         <Route path='/occurrences/:id' component={DetailPage}/>
-        <Route path='/login' component={LoginPage}/>
-        <Route path='/register' component={RegisterPage}/>
-        <AuthorizedRoute component={Authorized}/>
+        <AuthorizedRoute path="/user" component={Authorized}/>
+        <UnauthorizedRoute path="/login" component={Unauthorized}/>
         <Redirect to="/"/>
       </Switch>
     </main>
@@ -28,9 +28,20 @@ const Main = () => (
 
 const Authorized = () => {
   return (
-    <Switch>
+    <>
       <Route path='/user' component={UserPage} />
+    </>
+  );
+}
+
+const Unauthorized = () => {
+  return (
+
+    <Switch>
+      <Route exact={true} path='/login' component={LoginPage} />
+      <Route path='/login/register' component={RegisterPage}/>
     </Switch>
+
   );
 }
   
@@ -42,7 +53,10 @@ const Authorized = () => {
 
 export function getRoutes(isLoggedIn: boolean) {
   if(!isLoggedIn){
-    return [...routes, {routeLink: "/login", name:"Login"}]
+    return [...routes, 
+      {routeLink: "/login", name:"Login"},
+      {routeLink: "/login/register", name:"Register"}
+    ]
   }
   return [...routes, {routeLink: "/user", name:"User"}]
 }

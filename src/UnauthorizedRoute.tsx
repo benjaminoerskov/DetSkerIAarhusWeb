@@ -6,22 +6,23 @@ import { IAppState } from './state/ducks';
 import { getUserViewState } from './state/ducks/user/selectors';
 
 
-interface IAuthorizedComponentProps extends RouteProps {
+ interface IUnauthorizedComponentProps extends RouteProps {
     isLoggedIn: boolean;
     isAuthenticating: boolean;
     component: (props: any) => JSX.Element
 }
 
-class AuthorizedRoute extends Route<IAuthorizedComponentProps> {
+class UnauthorizedRoute extends Route<IUnauthorizedComponentProps> {
   
     render() {
       const { component: Component, isAuthenticating, isLoggedIn, ...rest } = this.props
       return (
         <Route {...rest} render={() => {
-          if (isAuthenticating) {return <div>Loading...</div>}
+          if (isAuthenticating) {
+            return <div>Loading...</div>}
           return isLoggedIn
-            ? <Component {...this.props} />
-            : <Redirect to="/login" />
+            ? <Redirect to="/user"/>
+            : <Component {...this.props} />
         }} />
       )
     }
@@ -33,4 +34,4 @@ class AuthorizedRoute extends Route<IAuthorizedComponentProps> {
     isAuthenticating: getUserViewState(state.user).isAuthenticating
   })
   
-  export default connect(mapStateToProps)(AuthorizedRoute)
+  export default connect(mapStateToProps)(UnauthorizedRoute)

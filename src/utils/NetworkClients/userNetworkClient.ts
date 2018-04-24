@@ -8,9 +8,12 @@ class UserNetworkClient extends NetworkClient < IUser > {
         body: JSON.stringify(newUser),
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-Secret': 'herpderp'
         }
       };
+      // tslint:disable-next-line:no-console
+      console.log(req);
       return fetch(uri, req);
     } catch (error) {
       throw error;

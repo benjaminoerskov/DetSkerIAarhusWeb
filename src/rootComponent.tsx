@@ -50,7 +50,7 @@ export interface IRouterLinkElementProps {
 
 const NavLinkElement = (props:IRouterLinkElementProps) => (
     <li className="nav-item">
-    <NavLink className="nav-link" activeClassName="active" to={props.routeLink} >{props.name}</NavLink>
+    <NavLink className="nav-link" exact={true} activeClassName="active" to={props.routeLink} >{props.name}</NavLink>
   </li>
 )
 

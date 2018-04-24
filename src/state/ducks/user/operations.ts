@@ -59,7 +59,7 @@ const setUserDetailsAsync = (user : IUser) => {
 const loginUserAsync = (userLogin : ILoginType) => {
   return async(dispatch : Dispatch < any >, getState : () => IAppState) => {
 
-    const devUri = getConfig().urls.baseAPIURL + '/account/login';
+    const devUri = getConfig().urls.baseAPIURL + '/Account/Login';
 
     try {
       dispatch(actions.SetLoginRequested());

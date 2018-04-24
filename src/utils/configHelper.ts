@@ -5,11 +5,13 @@ interface IConfig {
   };
 }
 
-const devConfig =  {
+const devConfig =  
+
+{
   
     urls: {
 
-      baseAPIURL: "http://192.168.5.61:54382/api",
+      baseAPIURL: "http://localhost:44345/api",
       termsURL: "https://www.google.com"
     }
   }

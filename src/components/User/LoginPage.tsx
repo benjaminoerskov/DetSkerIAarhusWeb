@@ -8,7 +8,6 @@ import { IUserOperations } from '../../state/ducks/user/operations';
 import { getUserViewState } from '../../state/ducks/user/selectors';
 import { ILoginError, ILoginType, IUser } from '../../state/ducks/user/types';
 
-
 interface ILoginScreenProps {
     userOperations: IUserOperations;
     user: IUser;
@@ -58,6 +57,7 @@ class LoginPage extends React.Component<ILoginScreenProps, ILoginScreenState> {
     onLoginPressed(event: React.ChangeEvent<any>) {
         this.props.userOperations.loginUserAsync(this.state.userLogin);
         event.preventDefault();
+        window.localStorage.setItem("donger", "token")
       }
 
 public render(){
