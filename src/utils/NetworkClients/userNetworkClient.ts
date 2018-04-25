@@ -9,7 +9,9 @@ class UserNetworkClient extends NetworkClient < IUser > {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Secret': 'herpderp'
+          'X-Secret': 'herpderp',
+
+
         }
       };
       return fetch(uri, req);

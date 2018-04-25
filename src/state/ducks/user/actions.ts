@@ -153,12 +153,12 @@ export const SetUnLikeSuccess = () => ({
 });
 
 export const SetLike = (like: types.ILike) => ({
-  type: types.UNLIKE_SUCCESS,
+  type: types.SET_LIKE,
   payload: like
 });
 
 export const SetUnLike = (unLike: string[]) => ({
-  type: types.UNLIKE_SUCCESS,
+  type: types.SET_UNLIKE,
   payload: unLike
 });
 

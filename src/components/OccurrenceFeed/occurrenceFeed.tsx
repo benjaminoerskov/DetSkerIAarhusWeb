@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { Checkbox } from 'react-bootstrap';
 import * as InfiniteScroll from 'react-infinite-scroller';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { bindActionCreators, Dispatch } from 'redux';
 
 import { IAppState } from '../../state/ducks';
@@ -10,11 +8,15 @@ import { occurrencesOperations } from '../../state/ducks/occurrences';
 import { IOccurrencesOperations, IResourceOptions } from '../../state/ducks/occurrences/operations';
 import { getOccurrencesViewState } from '../../state/ducks/occurrences/selectors';
 import { IOccurrence, IPagination } from '../../state/ducks/occurrences/types';
+import { userOperations } from '../../state/ducks/user';
+import { IUserOperations } from '../../state/ducks/user/operations';
 import { getUserViewState } from '../../state/ducks/user/selectors';
 import DateHelper from '../../utils/dateHelper';
+import { OccouranceCardComponent } from './occurrenceCard';
 
   interface IOccurrencesScreenProps {
     occurrencesOperations: IOccurrencesOperations;
+    userOperations: IUserOperations;
     eventsFeed: IOccurrence[];
     pagination: IPagination;
     userLikes: IOccurrence[];
@@ -32,6 +34,8 @@ IOccurrencesScreenState> {
         this.upDateEvents = this.upDateEvents.bind(this);
         this.handleLoadMore = this.handleLoadMore.bind(this);
         this.handleRefresh = this.handleRefresh.bind(this);
+        this.likeEvent = this.likeEvent.bind(this);
+        this.unLikeEvent = this.unLikeEvent.bind(this);
 
         this.state = {
         resourceOptions: {
@@ -51,7 +55,10 @@ IOccurrencesScreenState> {
     const occurrenceItems: JSX.Element[] = [];
     this.props.eventsFeed.map((occo) => {
       occurrenceItems.push(<OccouranceCardComponent key={occo["@id"]} occurrence={occo} 
-      userLikes={this.props.userLikes}/>)
+      userLikes={this.props.userLikes}
+      likeEvent={this.likeEvent}
+      unLikeEvent={this.unLikeEvent}
+      />)
     });
 
     return (
@@ -65,6 +72,14 @@ IOccurrencesScreenState> {
         </div>
       </InfiniteScroll>
     );
+  }
+
+  private likeEvent(id: string){
+    this.props.userOperations.likeOccurrenceAsync({occurrenceId: id});
+  }
+
+  private unLikeEvent(id: string){
+    this.props.userOperations.unLikeOccurrenceAsync({occurrenceId: id});
   }
 
   private upDateEvents = async (page: number) => {
@@ -97,7 +112,6 @@ IOccurrencesScreenState> {
       });
     }
   };
-
   
   private handleRefresh = async () => {
     await this.setState({
@@ -149,78 +163,9 @@ const mapStateToProps = (state: IAppState) => {
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     occurrencesOperations: bindActionCreators(occurrencesOperations, dispatch),
+    userOperations: bindActionCreators(userOperations, dispatch),
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OccurrenceFeed);
   
-const OccouranceCardComponent = (props: IOccourrenceCardComponentProps): JSX.Element => {
-  const occurrenceId = props.occurrence["@id"].replace(/\D/g,'');
-  const desciption = strip(props.occurrence.event.description).slice(0,200) +"... ";
-  const eventName = getEventName(props.occurrence.event.name, 45);
-  const imageSource = props.occurrence.event.image ? props.occurrence.event.image : "someplaceholder";
-  const betterDate = DateHelper.getDisplayString(new Date(props.occurrence.startDate));
-  const isLiked = (props.userLikes.find(x => x["@id"] === props.occurrence
-  ["@id"]) === null);
-  return(
-    <div className="card cardListComponent">
-      <div className="img-div">
-        <Link to={`/occurrences/${occurrenceId}`}>
-          <img className="card-img-top imgFeed" title={decoder(props.occurrence.event.name)} src={imageSource} alt={props.occurrence.event.name}>
-          </img>
-        </Link>
-          <Checkbox name="like" checked={isLiked} onChange={(e) => onLikeChange(isLiked, occurrenceId, e) }>like</Checkbox>
-        
-      </div>
-      <div className="card-body card-body-custom">
-      <div>
-        <h5 className="card-title" dangerouslySetInnerHTML={{__html: eventName}}></h5>
-        <p className="card-text" >{desciption}<Link to={`/occurrences/${occurrenceId}`}>Læs mere</Link></p>
-      </div>
-        <div className="cardDate">
-          <span className="feedDate">{betterDate}</span>
-          <span className="feedPrice">pris: {props.occurrence.ticketPriceRange}</span>
-        </div>
-      </div>
-  </div>
-  );
-}
-
-interface IOccourrenceCardComponentProps {
-  occurrence: IOccurrence;
-  userLikes: IOccurrence[];
-}
-
-function onLikeChange(isLiked: boolean, id: string, event: React.ChangeEvent<any>){
-if(isLiked){
-  // Like event
-  // tslint:disable-next-line:no-console
-  console.log(isLiked);
-}
-else {
-  // unlike event
-  // tslint:disable-next-line:no-console
-  console.log(isLiked);
-}
-}
-
-function getEventName(name:string, amountOfChars:number){
-  if(name.length < amountOfChars)
-  {
-    return name;
-  }
-  else {
-    return name.slice(0, amountOfChars) + "...";
-  }
-}
-
-function strip(html:string){
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  return doc.body.textContent || "";
-}
-
-function decoder(toUnescape: string): string {
-  return toUnescape.replace(/&#(\d+);/g, (match, dec)=>{
-    return String.fromCharCode(dec);
-  })
-}

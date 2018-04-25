@@ -106,11 +106,11 @@ const getTagsAsync = () => {
 const filterRequest = (options : IResourceOptions, page : number, pageSize : number) : string => {
   let req = '?';
 
-  if (options.startDate !== null) {
-    req += 'startDate[after]=' + options.startDate;
-  } else {
+  // if (options.startDate !== null) {
+  //   req += 'startDate[after]=' + options.startDate;
+  // } else {
     req += 'startDate[after]=now';
-  }
+  // }
 
   if (page !== null) {
     req += '&page=' + page.toString();

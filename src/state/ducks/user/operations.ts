@@ -101,12 +101,12 @@ const likeOccurrenceAsync = (like: ILike) => {
   return async(dispatch : Dispatch < any >, getState : () => IAppState) => {
     const devUri = getConfig().urls.baseAPIURL + '/AssociatedOccurrences';
     try{
-      dispatch(userActions.SetLikeRequested)
+      dispatch(userActions.SetLikeRequested())
       const response = await userNetworkClient.postAsync(devUri, like);
     
     if(response.ok){
       dispatch(userActions.SetLike(like));
-      dispatch(userActions.SetLikeSuccess);
+      dispatch(userActions.SetLikeSuccess());
     }
     else {
       dispatch(userActions.SetLikeFailure({error: response.statusText}))
@@ -120,17 +120,19 @@ const likeOccurrenceAsync = (like: ILike) => {
   }
 }
 
-const unLikeOccurrenceAsync = (unlike: string[]) => {
+const unLikeOccurrenceAsync = (like: ILike) => {
   return async(dispatch : Dispatch < any >, getState : () => IAppState) => {
     const devUri = getConfig().urls.baseAPIURL + '/AssociatedOccurrences';
     try{
-      dispatch(userActions.SetUnLikeRequested)
+      dispatch(userActions.SetUnLikeRequested())
       // TODO MAKE DELETE
-      const response = await userNetworkClient.postAsync(devUri, unlike);
+      const response = await userNetworkClient.postAsync(devUri, like);
     
     if(response.ok){
+      const unlike = getState().user.userDetails.associatedOccurrences.filter((val, i) => val !== like.occurrenceId);
+
       dispatch(userActions.SetUnLike(unlike));
-      dispatch(userActions.SetUnLikeSuccess);
+      dispatch(userActions.SetUnLikeSuccess());
     }
     else {
       dispatch(userActions.SetUnLikeFailure({error: response.statusText}))
@@ -155,8 +157,8 @@ export interface IUserOperations {
   setUserDetailsAsync : (user : IUser) => ReduxOperationReturnType;
   loginUserAsync : (userLogin : ILoginType) => ReduxOperationReturnType;
   logoutUser : () => ReduxOperationReturnType;
-  likeOccurrenceAsync : () => ReduxOperationReturnType;
-  unLikeOccurrenceAsync : () => ReduxOperationReturnType;
+  likeOccurrenceAsync : (like: ILike) => ReduxOperationReturnType;
+  unLikeOccurrenceAsync : (like: ILike) => ReduxOperationReturnType;
 };
 
 export default {

@@ -15,7 +15,8 @@ export abstract class NetworkClient < T > {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Secret': 'herpderp'
+          'X-Secret': 'herpderp',
+          Authorization: "Bearer " + window.localStorage.getItem("token")
         },
         body: JSON.stringify(obj),
       };
