@@ -25,7 +25,7 @@ export const defaultState = {
   registerError: {
     error: '',
   },
-  isAuthenticating: false,
+  isAuthenticating: true,
   isLoggedIn: false,
 };
 
@@ -43,12 +43,14 @@ export const userReducer = (
       return {
         ...state,
         userDetails: action.payload,
+        isLoggedIn: true
       };
     case types.LOGIN_FAILURE:
       return {
         ...state,
         loginError: action.payload,
         isAuthenticating: false,
+        isLoggedIn: false
       };
     case types.LOGIN_REQUESTED:
       return {
@@ -75,6 +77,12 @@ export const userReducer = (
         registerError: action.payload,
         isAuthenticating: false,
       };
+      case types.LOGOUT:
+      return {
+        ...state,
+        user: defaultState.user,
+        userDetails: defaultState.userDetails
+      }
     default:
       return state;
   }

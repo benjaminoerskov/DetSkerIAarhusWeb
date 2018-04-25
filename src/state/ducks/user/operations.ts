@@ -1,11 +1,12 @@
-import {Dispatch} from 'redux';
+import { Dispatch } from 'redux';
 
-import {IAppState} from '..';
-import {getConfig} from '../../../utils/configHelper';
+import { userActions } from '.';
+import { IAppState } from '..';
+import { getConfig } from '../../../utils/configHelper';
 import userNetworkClient from '../../../utils/NetworkClients/userNetworkClient';
-import {ReduxOperationReturnType} from '../../ReduxOperationReturnType';
+import { ReduxOperationReturnType } from '../../ReduxOperationReturnType';
 import * as actions from './actions';
-import {ILoginError, ILoginType, IRegisterUser, IUser, IUserDetails} from './types';
+import { ILoginError, ILoginType, IRegisterUser, IUser, IUserDetails } from './types';
 
 const registerUserAsync = (newUser : IRegisterUser) => {
   return async(dispatch : Dispatch < any >, getState : () => IAppState) => {
@@ -33,14 +34,15 @@ const registerUserAsync = (newUser : IRegisterUser) => {
 
 const setUserDetailsAsync = (user : IUser) => {
   return async(dispatch : Dispatch < any >, getState : () => IAppState) => {
-
+      dispatch(userActions.SetLoginRequested());
     const devUri = getConfig().urls.baseAPIURL + '/user';
 
     const req = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer: ' + user.token
+        'X-Secret':'herpderp',
+        Authorization: 'Bearer ' + user.token
       }
     };
 
@@ -48,15 +50,23 @@ const setUserDetailsAsync = (user : IUser) => {
       const response = await userNetworkClient.getAsync(devUri, req);
       if (response.ok) {
         const userDetails : IUserDetails = await response.json();
-        dispatch(actions.setUserDetails(userDetails));
+        await dispatch(actions.setUserDetails(userDetails));
+        dispatch(userActions.SetLoginSuccess());
+        if(user.token !== ""){
+          dispatch(userActions.setUser(user));
+        }
+      }
+      else {
+      dispatch(userActions.setLoginFailure({error: response.statusText}))
       }
     } catch (error) {
+      dispatch(userActions.setLoginFailure(error))
       throw error;
     }
   };
 };
 
-const loginUserAsync = (userLogin : ILoginType) => {
+const loginUserAsync = (userLogin : ILoginType, rememberMe: boolean) => {
   return async(dispatch : Dispatch < any >, getState : () => IAppState) => {
 
     const devUri = getConfig().urls.baseAPIURL + '/Account/Login';
@@ -70,7 +80,10 @@ const loginUserAsync = (userLogin : ILoginType) => {
         const user : IUser = {
           token: await response.text()
         };
-        dispatch(actions.setUser(user));
+        if(rememberMe){
+          window.localStorage.setItem("token", user.token);
+        }
+        await dispatch(actions.setUser(user));
         dispatch(actions.SetLoginSuccess());
       } else {
         const LoginError : ILoginError = {
@@ -86,14 +99,23 @@ const loginUserAsync = (userLogin : ILoginType) => {
   };
 };
 
+const logoutUser = () => {
+  return (dispatch : Dispatch < any >, getState : () => IAppState) => {
+    dispatch(userActions.Logout());
+  }
+
+}
+
 export interface IUserOperations {
   registerUserAsync : (newUser : IRegisterUser) => ReduxOperationReturnType;
   setUserDetailsAsync : (user : IUser) => ReduxOperationReturnType;
   loginUserAsync : (userLogin : ILoginType) => ReduxOperationReturnType;
+  logoutUser : () => ReduxOperationReturnType;
 };
 
 export default {
   registerUserAsync,
   setUserDetailsAsync,
-  loginUserAsync
+  loginUserAsync,
+  logoutUser
 };

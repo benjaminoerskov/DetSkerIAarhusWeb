@@ -17,6 +17,7 @@ interface ILoginScreenProps {
 
   interface ILoginScreenState {
     userLogin: ILoginType;
+    rememberMe: boolean;
   }
 
 class LoginPage extends React.Component<ILoginScreenProps, ILoginScreenState> {
@@ -29,8 +30,11 @@ class LoginPage extends React.Component<ILoginScreenProps, ILoginScreenState> {
             email: '',
             password: '',
           },
+          rememberMe: false
         };
+
         this.onLoginPressed = this.onLoginPressed.bind(this);
+        this.onRememberMeToggle = this.onRememberMeToggle.bind(this);
       }
     
 
@@ -46,19 +50,23 @@ class LoginPage extends React.Component<ILoginScreenProps, ILoginScreenState> {
     inputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const target = event.target;
         const value = target.value;
-    this.setState({
-        userLogin: {
-        ...this.state.userLogin,
-        [target.name]: value,
+        this.setState({
+            userLogin: {
+            ...this.state.userLogin,
+            [target.name]: value,
         },
     });
     };
 
-    onLoginPressed(event: React.ChangeEvent<any>) {
-        this.props.userOperations.loginUserAsync(this.state.userLogin);
+    onLoginPressed = (event: React.ChangeEvent<any>) => {
+        // @ts-ignore'
+     this.props.userOperations.loginUserAsync(this.state.userLogin, this.state.rememberMe);
         event.preventDefault();
-        window.localStorage.setItem("donger", "token")
       }
+
+    onRememberMeToggle(event: React.ChangeEvent<any>){
+        this.setState({rememberMe: event.target.checked})
+    }
 
 public render(){
     return(
@@ -77,8 +85,8 @@ public render(){
                 <input name="password" type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" value={this.state.userLogin.password} onChange={this.inputChange}/>
             </div>
             <div className="form-check">
-                <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
+                <input type="checkbox" className="form-check-input" id="exampleCheck1" checked={this.state.rememberMe} onChange={this.onRememberMeToggle} />
+                <label className="form-check-label" htmlFor="exampleCheck1">Remember me</label>
             </div>
            
          <button type="submit" className="btn btn-primary">Submit</button>

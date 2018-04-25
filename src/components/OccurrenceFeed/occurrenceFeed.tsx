@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { Checkbox } from 'react-bootstrap';
 import * as InfiniteScroll from 'react-infinite-scroller';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { bindActionCreators, Dispatch } from 'redux';
 
-import { Link } from 'react-router-dom'
 import { IAppState } from '../../state/ducks';
 import { occurrencesOperations } from '../../state/ducks/occurrences';
 import { IOccurrencesOperations, IResourceOptions } from '../../state/ducks/occurrences/operations';
@@ -46,7 +47,7 @@ IOccurrencesScreenState> {
 
   public render() {
     const occurrenceItems: JSX.Element[] = [];
-    this.props.eventsFeed.map((occo, i) => {
+    this.props.eventsFeed.map((occo) => {
       occurrenceItems.push(<OccouranceCardComponent key={occo["@id"]} occurrence={occo} />)
     });
 
@@ -154,11 +155,16 @@ const OccouranceCardComponent = (props: IOccourrenceCardComponentProps): JSX.Ele
   const eventName = getEventName(props.occurrence.event.name, 45);
   const imageSource = props.occurrence.event.image ? props.occurrence.event.image : "someplaceholder";
   const betterDate = DateHelper.getDisplayString(new Date(props.occurrence.startDate));
+  // const isLiked = props.
   return(
     <div className="card cardListComponent">
       <div className="img-div">
-        <Link to={`/occurrences/${occurrenceId}`}><img className="card-img-top imgFeed" title={decoder(props.occurrence.event.name)} src={imageSource} alt={props.occurrence.event.name}>
-        </img></Link>
+        <Link to={`/occurrences/${occurrenceId}`}>
+          <img className="card-img-top imgFeed" title={decoder(props.occurrence.event.name)} src={imageSource} alt={props.occurrence.event.name}>
+          </img>
+        </Link>
+          <Checkbox >like</Checkbox>
+        
       </div>
       <div className="card-body card-body-custom">
       <div>
@@ -176,6 +182,7 @@ const OccouranceCardComponent = (props: IOccourrenceCardComponentProps): JSX.Ele
 
 interface IOccourrenceCardComponentProps {
   occurrence: IOccurrence;
+  // userLikes: IOccurrence[];
 }
 
 function getEventName(name:string, amountOfChars:number){

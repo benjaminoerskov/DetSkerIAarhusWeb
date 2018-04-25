@@ -29,13 +29,19 @@ export interface IRegisterRequest extends IFluxStandardAction {
   type: types.REGISTER_REQUESTED;
 }
 
+export interface ILogoutUser extends IFluxStandardAction {
+  type: types.LOGOUT;
+}
+
 export type UserStateAction =
   | ISetUser
   | ISetUserDetails
   | ILoginRequest
   | ILoginError
   | ILoginSuccess
-  | IRegisterRequest;
+  | IRegisterRequest
+  | ILogoutUser
+  
 
 export const setUser = (user: types.IUser): ISetUser => ({
   type: types.SET_USER,
@@ -62,6 +68,10 @@ export const SetLoginSuccess = () => ({
   type: types.LOGIN_SUCCESS,
 });
 
+export const Logout = () => ({
+  type: types.LOGOUT,
+});
+
 export const SetRegisterRequested = () => ({
   type: types.REGISTER_REQUESTED,
 });
@@ -80,4 +90,8 @@ export interface IUserActions {
 export default {
   setUser,
   setUserDetails,
+  SetLoginRequested,
+  SetLoginSuccess,
+  setLoginFailure,
+  Logout
 };

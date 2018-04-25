@@ -3,19 +3,40 @@ import './App.css';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, NavLink } from 'react-router-dom';
+import { Dispatch } from 'redux';
 
 import Main, { getRoutes } from './Main';
 import { IAppState } from './state/ducks';
+import { userOperations } from './state/ducks/user';
 import { getUserViewState } from './state/ducks/user/selectors';
 
 export interface IRootComponentProps {
     userLoggedIn: boolean;
+    loading: boolean;
+    dispatch(action: any): Dispatch<any>
 }
 
 
 class RootComponent extends React.PureComponent<IRootComponentProps> {
 
+    async componentDidMount() {
+        // const token = window.localStorage.getItem("token");
+        // if(token==="" || token === null)
+        // {
+        //     // return;
+        // }
+        await this.props.dispatch(userOperations.setUserDetailsAsync({
+            token: (window.localStorage.getItem("token") as string )
+        })
+        )
+    }
+
     public render() {
+        if(this.props.loading){
+            return(
+                <div>Loading... </div>
+            );
+        }
         return (
             <BrowserRouter>
                 <div className= "App">
@@ -63,7 +84,8 @@ const ConstructNavLinkElements = (props: { routes: IRouterLinkElementProps[] }):
 )
 
 const mapStateToProps = (state: IAppState) => ({
-    userLoggedIn: getUserViewState(state.user).isLoggedIn
+    userLoggedIn: getUserViewState(state.user).isLoggedIn,
+    loading: getUserViewState(state.user).isAuthenticating
 })
 
 export default connect(mapStateToProps)(RootComponent);
