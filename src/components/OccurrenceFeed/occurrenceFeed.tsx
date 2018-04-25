@@ -10,12 +10,14 @@ import { occurrencesOperations } from '../../state/ducks/occurrences';
 import { IOccurrencesOperations, IResourceOptions } from '../../state/ducks/occurrences/operations';
 import { getOccurrencesViewState } from '../../state/ducks/occurrences/selectors';
 import { IOccurrence, IPagination } from '../../state/ducks/occurrences/types';
+import { getUserViewState } from '../../state/ducks/user/selectors';
 import DateHelper from '../../utils/dateHelper';
 
   interface IOccurrencesScreenProps {
     occurrencesOperations: IOccurrencesOperations;
     eventsFeed: IOccurrence[];
     pagination: IPagination;
+    userLikes: IOccurrence[];
   }
   
   interface IOccurrencesScreenState {
@@ -48,7 +50,8 @@ IOccurrencesScreenState> {
   public render() {
     const occurrenceItems: JSX.Element[] = [];
     this.props.eventsFeed.map((occo) => {
-      occurrenceItems.push(<OccouranceCardComponent key={occo["@id"]} occurrence={occo} />)
+      occurrenceItems.push(<OccouranceCardComponent key={occo["@id"]} occurrence={occo} 
+      userLikes={this.props.userLikes}/>)
     });
 
     return (
@@ -94,6 +97,7 @@ IOccurrencesScreenState> {
       });
     }
   };
+
   
   private handleRefresh = async () => {
     await this.setState({
@@ -138,6 +142,7 @@ const mapStateToProps = (state: IAppState) => {
   return {
     eventsFeed: getOccurrencesViewState(state.occurrences).occurrences,
     pagination: getOccurrencesViewState(state.occurrences).pagination,
+    userLikes: getUserViewState(state.user).userDetails.associatedOccurrences
   };
 };
 
@@ -155,7 +160,8 @@ const OccouranceCardComponent = (props: IOccourrenceCardComponentProps): JSX.Ele
   const eventName = getEventName(props.occurrence.event.name, 45);
   const imageSource = props.occurrence.event.image ? props.occurrence.event.image : "someplaceholder";
   const betterDate = DateHelper.getDisplayString(new Date(props.occurrence.startDate));
-  // const isLiked = props.
+  const isLiked = (props.userLikes.find(x => x["@id"] === props.occurrence
+  ["@id"]) === null);
   return(
     <div className="card cardListComponent">
       <div className="img-div">
@@ -163,7 +169,7 @@ const OccouranceCardComponent = (props: IOccourrenceCardComponentProps): JSX.Ele
           <img className="card-img-top imgFeed" title={decoder(props.occurrence.event.name)} src={imageSource} alt={props.occurrence.event.name}>
           </img>
         </Link>
-          <Checkbox >like</Checkbox>
+          <Checkbox name="like" checked={isLiked} onChange={(e) => onLikeChange(isLiked, occurrenceId, e) }>like</Checkbox>
         
       </div>
       <div className="card-body card-body-custom">
@@ -182,7 +188,20 @@ const OccouranceCardComponent = (props: IOccourrenceCardComponentProps): JSX.Ele
 
 interface IOccourrenceCardComponentProps {
   occurrence: IOccurrence;
-  // userLikes: IOccurrence[];
+  userLikes: IOccurrence[];
+}
+
+function onLikeChange(isLiked: boolean, id: string, event: React.ChangeEvent<any>){
+if(isLiked){
+  // Like event
+  // tslint:disable-next-line:no-console
+  console.log(isLiked);
+}
+else {
+  // unlike event
+  // tslint:disable-next-line:no-console
+  console.log(isLiked);
+}
 }
 
 function getEventName(name:string, amountOfChars:number){

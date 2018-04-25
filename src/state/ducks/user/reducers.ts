@@ -6,8 +6,10 @@ export interface IUserState {
   userDetails: types.IUserDetails;
   loginError: types.ILoginError;
   registerError: types.ILoginError;
+  likeError: types.ILikeError;
   isAuthenticating: boolean;
   isLoggedIn: boolean;
+  isLoadingLike: boolean;
 }
 
 export const defaultState = {
@@ -17,7 +19,7 @@ export const defaultState = {
   userDetails: {
     id: '',
     email: '',
-    associatedOccurrences: undefined,
+    associatedOccurrences: [],
   },
   loginError: {
     error: '',
@@ -25,8 +27,12 @@ export const defaultState = {
   registerError: {
     error: '',
   },
+  likeError: {
+    error: '',
+  },
   isAuthenticating: true,
   isLoggedIn: false,
+  isLoadingLike: false,
 };
 
 export const userReducer = (
@@ -83,6 +89,60 @@ export const userReducer = (
         user: defaultState.user,
         userDetails: defaultState.userDetails
       }
+      case types.LIKE_REQUESTED:
+      return {
+        ...state,
+        isLoadingLike: true
+      };
+      case types.LIKE_SUCCESS:
+      return {
+        ...state,
+        isLoadingLike: false
+      };
+      case types.LIKE_FAILURE:
+      return {
+        ...state,
+        isLoadingLike: false,
+        likeError: action.payload
+      };
+      case types.UNLIKE_REQUESTED:
+      return {
+        ...state,
+        isLoadingLike: true
+      };
+      case types.UNLIKE_SUCCESS:
+      return {
+        ...state,
+        isLoadingLike: false
+      };
+      case types.UNLIKE_FAILURE:
+      return {
+        ...state,
+        isLoadingLike: false,
+        likeError: action.payload
+      };
+      case types.SET_LIKE:
+      return {
+        ...state,
+        userDetails:{
+          ...state.userDetails,
+          associatedOccurrences: [...state.userDetails.associatedOccurrences, action.payload.occurrenceId]
+        }
+
+        // userDetails: {
+        //   ...userDetails,
+        //   associatedOccurrences: action.payload.occurrenceId,
+        // }
+      }
+      case types.SET_UNLIKE:
+      return {
+        ...state,
+        userDetails:{
+          ...state.userDetails,
+          associatedOccurrences: action.payload
+        }
+      }
+
     default:
       return state;
   }
