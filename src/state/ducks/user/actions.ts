@@ -63,12 +63,12 @@ export interface IUnLikeSuccess extends IFluxStandardAction {
 
 export interface ISetLike extends IFluxStandardAction {
   type: types.SET_LIKE;
-  payload: types.ILike;
+  payload: types.IAssociatedOccurrence;
 }
 
 export interface ISetUnLike extends IFluxStandardAction {
   type: types.SET_UNLIKE;
-  payload: string[];
+  payload: types.IAssociatedOccurrence[];
 }
 
 export type UserStateAction =
@@ -152,12 +152,12 @@ export const SetUnLikeSuccess = () => ({
   type: types.UNLIKE_SUCCESS,
 });
 
-export const SetLike = (like: types.ILike) => ({
+export const SetLike = (like: types.IAssociatedOccurrence) => ({
   type: types.SET_LIKE,
   payload: like
 });
 
-export const SetUnLike = (unLike: string[]) => ({
+export const SetUnLike = (unLike: types.IAssociatedOccurrence[]) => ({
   type: types.SET_UNLIKE,
   payload: unLike
 });

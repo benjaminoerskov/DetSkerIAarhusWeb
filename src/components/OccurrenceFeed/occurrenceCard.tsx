@@ -3,13 +3,14 @@ import { Checkbox } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import { IOccurrence } from '../../state/ducks/occurrences/types';
+import { IAssociatedOccurrence } from '../../state/ducks/user/types';
 import DateHelper from '../../utils/dateHelper';
 
 interface IOccourrenceCardComponentProps {
     occurrence: IOccurrence;
-    userLikes: IOccurrence[];
-    likeEvent(id: string): void;
-    unLikeEvent(id: string): void;
+    userLikes: IAssociatedOccurrence[];
+    likeEvent(id: string): Promise<boolean>;
+    unLikeEvent(id: string): Promise<boolean>;
 }
 
 interface IState {
@@ -21,30 +22,62 @@ interface IState {
     isLiked?: boolean;
 }
 
-
-
 export class OccouranceCardComponent extends React.Component<IOccourrenceCardComponentProps, IState>  {
-    /**
-     *
-     */
+  
     constructor(props: IOccourrenceCardComponentProps) {
         super(props);
         this.onLikeChange = this.onLikeChange.bind(this);
-        
+        this.checkForLike = this.checkForLike.bind(this);
+        this.getOccurrenceIdAsNumber = this.getOccurrenceIdAsNumber.bind(this);
     }
 
     state = {
-        occurrenceId: this.props.occurrence["@id"].replace(/\D/g, ''),
+        occurrenceId: this.getOccurrenceIdAsNumber(this.props.occurrence["@id"]),
         desciption: strip(this.props.occurrence.event.description).slice(0, 200) + "... ",
         eventName: getEventName(this.props.occurrence.event.name, 45),
         imageSource: this.props.occurrence.event.image ? this.props.occurrence.event.image : "someplaceholder",
         betterDate: DateHelper.getDisplayString(new Date(this.props.occurrence.startDate)),
-        isLiked: (this.props.userLikes.find(x => x["@id"] === this.props.occurrence["@id"]) === null),
+        // isLiked: (this.props.userLikes.find(x => x["@id"] === this.props.occurrence["@id"]) === null),
+        isLiked: this.checkForLike(this.props.occurrence["@id"])
     }
 
+    getOccurrenceIdAsNumber(stringId: string):string {
+        // tslint:disable-next-line:no-console
+        console.log(stringId);
+        return stringId.replace(/\D/g, '');
+    }
 
-    onLikeChange(event: React.ChangeEvent<any>) {
-        event.target.checked ? this.props.likeEvent(this.state.occurrenceId) : this.props.unLikeEvent(this.state.occurrenceId);
+    checkForLike(occurrenceId: string): boolean {
+        const findUserLikes = this.props.userLikes;
+        const stateOccId = this.getOccurrenceIdAsNumber(occurrenceId)
+
+        const currentOccurrenceLike = findUserLikes.find(x => parseInt(x.occurrenceId,10) === parseInt(stateOccId,10));
+       
+        if(currentOccurrenceLike === undefined)
+            {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+    async onLikeChange(event: React.ChangeEvent<any>) {
+        if(event.target.checked){
+            if(await this.props.likeEvent(this.state.occurrenceId)){
+                this.setState({isLiked: event.target.checked})
+            } 
+            else{
+            alert("Something went wrong")
+            }
+        }
+        else {
+            if(this.props.unLikeEvent(this.state.occurrenceId)){
+                this.setState({isLiked: event.target.checked})
+            }
+        }
+
+        // event.target.checked ? this.props.likeEvent(this.state.occurrenceId) : this.props.unLikeEvent(this.state.occurrenceId);
+        // this.setState({isLiked: event.target.checked})
     }
 
     render() {
@@ -73,8 +106,6 @@ export class OccouranceCardComponent extends React.Component<IOccourrenceCardCom
         );
     }
 }
-
-
 
 function getEventName(name: string, amountOfChars: number) {
     if (name.length < amountOfChars) {

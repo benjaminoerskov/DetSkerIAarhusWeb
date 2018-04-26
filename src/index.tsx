@@ -1,6 +1,5 @@
 import './index.css';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -14,9 +13,7 @@ const store = storeConf.store;
 
 render(
   <Provider store={store}>
-  <MuiThemeProvider>
       <RootComponent />
-  </MuiThemeProvider>
 </Provider>,
 document.getElementById('root')as HTMLElement);
 registerServiceWorker();

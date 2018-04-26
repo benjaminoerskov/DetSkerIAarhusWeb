@@ -19,6 +19,8 @@ class UserNetworkClient extends NetworkClient < IUser > {
       throw error;
     }
   }
+
+  
 }
 
 const userNetworkClient = new UserNetworkClient();

@@ -126,13 +126,11 @@ export const userReducer = (
         ...state,
         userDetails:{
           ...state.userDetails,
-          associatedOccurrences: [...state.userDetails.associatedOccurrences, action.payload.occurrenceId]
+          associatedOccurrences: [
+            ...state.userDetails.associatedOccurrences,
+            action.payload
+          ]
         }
-
-        // userDetails: {
-        //   ...userDetails,
-        //   associatedOccurrences: action.payload.occurrenceId,
-        // }
       }
       case types.SET_UNLIKE:
       return {

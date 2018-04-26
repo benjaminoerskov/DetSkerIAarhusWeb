@@ -26,6 +26,24 @@ export abstract class NetworkClient < T > {
       throw error;
     }
   }
+
+  public deleteAsync(uri : string, obj : object) {
+    try {
+      const req : RequestInit = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Secret': 'herpderp',
+          Authorization: "Bearer " + window.localStorage.getItem("token")
+        },
+        body: JSON.stringify(obj),
+      };
+
+      return fetch(uri, req);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 //

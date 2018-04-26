@@ -11,6 +11,7 @@ import { IOccurrence, IPagination } from '../../state/ducks/occurrences/types';
 import { userOperations } from '../../state/ducks/user';
 import { IUserOperations } from '../../state/ducks/user/operations';
 import { getUserViewState } from '../../state/ducks/user/selectors';
+import { IAssociatedOccurrence } from '../../state/ducks/user/types';
 import DateHelper from '../../utils/dateHelper';
 import { OccouranceCardComponent } from './occurrenceCard';
 
@@ -19,7 +20,7 @@ import { OccouranceCardComponent } from './occurrenceCard';
     userOperations: IUserOperations;
     eventsFeed: IOccurrence[];
     pagination: IPagination;
-    userLikes: IOccurrence[];
+    userLikes: IAssociatedOccurrence[];
   }
   
   interface IOccurrencesScreenState {
@@ -74,12 +75,16 @@ IOccurrencesScreenState> {
     );
   }
 
-  private likeEvent(id: string){
-    this.props.userOperations.likeOccurrenceAsync({occurrenceId: id});
+  private async likeEvent(id: string):Promise<boolean>{
+    await this.props.userOperations.likeOccurrenceAsync({occurrenceId: id});
+    
+    return !!this.props.userLikes.find(x => parseInt(x.occurrenceId,10) === parseInt(id,10))
   }
 
-  private unLikeEvent(id: string){
+  private async unLikeEvent(id: string): Promise<boolean>{
     this.props.userOperations.unLikeOccurrenceAsync({occurrenceId: id});
+    // if we find an event, return false, cause it shouldnt be there
+    return !(this.props.userLikes.find(x => parseInt(x.occurrenceId,10) === parseInt(id,10)))
   }
 
   private upDateEvents = async (page: number) => {

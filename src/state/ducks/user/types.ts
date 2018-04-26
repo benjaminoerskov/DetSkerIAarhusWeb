@@ -41,7 +41,21 @@ export interface IUser {
 export interface IUserDetails {
   id : string;
   email : string;
-  associatedOccurrences : string[];
+  associatedOccurrences : IAssociatedOccurrence[];
+}
+
+export interface IAssociatedOccurrence {
+id: string;
+applicationUserId: string;
+occurrenceId: string;
+type: string;
+tagsList: ITag[]
+}
+
+export interface ITag {
+  associatedOccurrencesId: string;
+  id: string;
+  tag: string;
 }
 
 export interface IRegisterUser {

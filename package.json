@@ -9,25 +9,20 @@
   "dependencies": {
     "@types/react-bootstrap": "^0.32.8",
     "@types/react-redux": "^5.0.16",
-    "@types/reactstrap": "^5.0.21",
-    "history": "^4.7.2",
-    "material-ui": "^0.20.0",
     "react": "^16.3.1",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.3.2",
     "react-infinite-scroller": "^1.1.4",
-    "react-redux": "^5.0.7",
+    "react-redux": "5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^4.0.8",
     "react-scripts-ts": "2.15.1",
-    "reactstrap": "^5.0.0-beta.3",
-    "redux": "^3.7.2",
-    "redux-devtools-extension": "^2.13.2",
+    "redux": "3.7.2",
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.2.0",
-    "remote-redux-devtools": "^0.5.12",
-    "serve": "^6.5.5"
+    "serve": "^6.5.5",
+    "redux-devtools-extension": "^2.13.2"
   },
   "scripts": {
     "start": "serve -s build",
@@ -39,7 +34,6 @@
   },
   "devDependencies": {
     "@types/jest": "^22.2.3",
-    "@types/material-ui": "^0.21.1",
     "@types/node": "^9.6.5",
     "@types/react-dom": "^16.0.5",
     "@types/react-infinite-scroller": "^1.0.6",
@@ -49,7 +43,7 @@
     "@types/react-tap-event-plugin": "0.0.30",
     "@types/redux-devtools-extension": "^2.13.2",
     "@types/redux-immutable-state-invariant": "^2.0.4",
-    "@types/remote-redux-devtools": "^0.5.2",
     "typescript": "^2.8.1"
+
   }
 }

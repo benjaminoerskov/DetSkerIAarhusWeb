@@ -6,7 +6,7 @@ import { getConfig } from '../../../utils/configHelper';
 import userNetworkClient from '../../../utils/NetworkClients/userNetworkClient';
 import { ReduxOperationReturnType } from '../../ReduxOperationReturnType';
 import * as actions from './actions';
-import { ILike, ILoginError, ILoginType, IRegisterUser, IUser, IUserDetails } from './types';
+import { IAssociatedOccurrence, ILike, ILoginError, ILoginType, IRegisterUser, IUser, IUserDetails } from './types';
 
 const registerUserAsync = (newUser : IRegisterUser) => {
   return async(dispatch : Dispatch < any >, getState : () => IAppState) => {
@@ -104,8 +104,15 @@ const likeOccurrenceAsync = (like: ILike) => {
       dispatch(userActions.SetLikeRequested())
       const response = await userNetworkClient.postAsync(devUri, like);
     
-    if(response.ok){
-      dispatch(userActions.SetLike(like));
+    if(!response.ok){
+      const currentAssociated: IAssociatedOccurrence = {
+        applicationUserId: '',
+        id:'',
+        occurrenceId: like.occurrenceId,
+        type: '',
+        tagsList: []
+      }
+      dispatch(userActions.SetLike(currentAssociated));
       dispatch(userActions.SetLikeSuccess());
     }
     else {
@@ -126,10 +133,10 @@ const unLikeOccurrenceAsync = (like: ILike) => {
     try{
       dispatch(userActions.SetUnLikeRequested())
       // TODO MAKE DELETE
-      const response = await userNetworkClient.postAsync(devUri, like);
+      const response = await userNetworkClient.deleteAsync(devUri, like);
     
     if(response.ok){
-      const unlike = getState().user.userDetails.associatedOccurrences.filter((val, i) => val !== like.occurrenceId);
+      const unlike = getState().user.userDetails.associatedOccurrences.filter((val, i) => val.occurrenceId !== like.occurrenceId);
 
       dispatch(userActions.SetUnLike(unlike));
       dispatch(userActions.SetUnLikeSuccess());

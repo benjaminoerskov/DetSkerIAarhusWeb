@@ -3,17 +3,18 @@ import './App.css';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, NavLink } from 'react-router-dom';
-import { Dispatch } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 
 import Main, { getRoutes } from './Main';
 import { IAppState } from './state/ducks';
 import { userOperations } from './state/ducks/user';
+import { IUserOperations } from './state/ducks/user/operations';
 import { getUserViewState } from './state/ducks/user/selectors';
 
 export interface IRootComponentProps {
     userLoggedIn: boolean;
     loading: boolean;
-    dispatch(action: any): Dispatch<any>
+    userOperations: IUserOperations;
 }
 
 
@@ -25,22 +26,22 @@ class RootComponent extends React.PureComponent<IRootComponentProps> {
         // {
         //     // return;
         // }
-        await this.props.dispatch(userOperations.setUserDetailsAsync({
-            token: (window.localStorage.getItem("token") as string )
+        await this.props.userOperations.setUserDetailsAsync({
+            token: (window.localStorage.getItem("token") as string)
         })
-        )
+
     }
 
     public render() {
-        if(this.props.loading){
-            return(
+        if (this.props.loading) {
+            return (
                 <div>Loading... </div>
             );
         }
         return (
             <BrowserRouter>
-                <div className= "App">
-                    <NavigationBar isloggedIn={this.props.userLoggedIn}  />
+                <div className="App">
+                    <NavigationBar isloggedIn={this.props.userLoggedIn} />
                     <Main />
                 </div>
             </BrowserRouter>
@@ -48,7 +49,7 @@ class RootComponent extends React.PureComponent<IRootComponentProps> {
     }
 }
 
-const NavigationBar = (props: {isloggedIn: boolean}) => {
+const NavigationBar = (props: { isloggedIn: boolean }) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <NavLink className="navbar-brand" to={"/"} >Home</NavLink>
@@ -69,10 +70,10 @@ export interface IRouterLinkElementProps {
     name: string;
 }
 
-const NavLinkElement = (props:IRouterLinkElementProps) => (
+const NavLinkElement = (props: IRouterLinkElementProps) => (
     <li className="nav-item">
-    <NavLink className="nav-link" exact={true} activeClassName="active" to={props.routeLink} >{props.name}</NavLink>
-  </li>
+        <NavLink className="nav-link" exact={true} activeClassName="active" to={props.routeLink} >{props.name}</NavLink>
+    </li>
 )
 
 const ConstructNavLinkElements = (props: { routes: IRouterLinkElementProps[] }): JSX.Element => (
@@ -88,4 +89,8 @@ const mapStateToProps = (state: IAppState) => ({
     loading: getUserViewState(state.user).isAuthenticating
 })
 
-export default connect(mapStateToProps)(RootComponent);
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+    userOperations: bindActionCreators(userOperations, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RootComponent);
