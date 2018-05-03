@@ -97,7 +97,8 @@ export const userReducer = (
       case types.LIKE_SUCCESS:
       return {
         ...state,
-        isLoadingLike: false
+        isLoadingLike: false,
+        likeError: {error: ''}
       };
       case types.LIKE_FAILURE:
       return {
@@ -113,7 +114,8 @@ export const userReducer = (
       case types.UNLIKE_SUCCESS:
       return {
         ...state,
-        isLoadingLike: false
+        isLoadingLike: false,
+        likeError: {error: ''}
       };
       case types.UNLIKE_FAILURE:
       return {

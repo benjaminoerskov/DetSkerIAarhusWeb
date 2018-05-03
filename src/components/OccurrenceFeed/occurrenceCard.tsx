@@ -62,9 +62,10 @@ export class OccouranceCardComponent extends React.Component<IOccourrenceCardCom
         }
 
     async onLikeChange(event: React.ChangeEvent<any>) {
-        if(event.target.checked){
+        const checked = event.target.checked;
+        if(checked){
             if(await this.props.likeEvent(this.state.occurrenceId)){
-                this.setState({isLiked: event.target.checked})
+                this.setState({isLiked: checked})
             } 
             else{
             alert("Something went wrong")
@@ -72,7 +73,7 @@ export class OccouranceCardComponent extends React.Component<IOccourrenceCardCom
         }
         else {
             if(this.props.unLikeEvent(this.state.occurrenceId)){
-                this.setState({isLiked: event.target.checked})
+                this.setState({isLiked: checked})
             }
         }
 

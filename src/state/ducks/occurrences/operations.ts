@@ -109,8 +109,10 @@ const filterRequest = (options : IResourceOptions, page : number, pageSize : num
   // if (options.startDate !== null) {
   //   req += 'startDate[after]=' + options.startDate;
   // } else {
+  //   req += 'startDate[after]=now';
+  //   }
+    
     req += 'startDate[after]=now';
-  // }
 
   if (page !== null) {
     req += '&page=' + page.toString();
@@ -155,7 +157,6 @@ const filterRequest = (options : IResourceOptions, page : number, pageSize : num
   return req;
 };
 
-// @ts-ignore
 export  const getSingleEvent = async (id:string): Promise<IOccurrence> => {
     const uri = 'https://api.detskeriaarhus.dk/api/occurrences/' + id;
     try {

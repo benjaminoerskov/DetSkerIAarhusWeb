@@ -35,7 +35,7 @@ const registerUserAsync = (newUser : IRegisterUser) => {
 const setUserDetailsAsync = (user : IUser) => {
   return async(dispatch : Dispatch < any >, getState : () => IAppState) => {
       dispatch(userActions.SetLoginRequested());
-    const devUri = getConfig().urls.baseAPIURL + '/user';
+    const devUri = getConfig().urls.baseAPIURL + '/user?occurrencesWithHistory=false';
 
     const req = {
       method: 'GET',
@@ -74,8 +74,6 @@ const loginUserAsync = (userLogin : ILoginType, rememberMe: boolean) => {
     try {
       dispatch(actions.SetLoginRequested());
       const response = await userNetworkClient.postAsync(devUri, userLogin);
-      // tslint:disable-next-line:no-console
-      console.log(response);
       if (response.ok) {
         const user : IUser = {
           token: await response.text()
@@ -104,7 +102,7 @@ const likeOccurrenceAsync = (like: ILike) => {
       dispatch(userActions.SetLikeRequested())
       const response = await userNetworkClient.postAsync(devUri, like);
     
-    if(!response.ok){
+    if(response.ok){
       const currentAssociated: IAssociatedOccurrence = {
         applicationUserId: '',
         id:'',

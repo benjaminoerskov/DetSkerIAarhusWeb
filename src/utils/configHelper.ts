@@ -7,7 +7,7 @@ interface IConfig {
 const devConfig =  
 {
     urls: {
-      baseAPIURL: "https://dsia-web-api.herokuapp.com/api",
+      baseAPIURL: "http://localhost:44345/api",
       termsURL: "https://www.google.com"
     }
   }
